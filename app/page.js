@@ -8,7 +8,8 @@ export default function Home() {
       <p>This is the homepage for my CPRG 306 assignments.</p>
 
       <nav style={{ marginTop: "1.5rem" }}>
-        <Link href="/week-2">Go to Week 2 Assignment</Link>
+        <Link href="/week-2">Go to Week 2 Assignment→</Link>
+        <Link href="/week-3">Go to Week 3 Assignment</Link>
       </nav>
     </main>
   );
