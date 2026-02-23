@@ -1,5 +1,9 @@
 "use client";
 import { useState } from "react";
+const CATEGORY_OPTIONS = [ "produce", "dairy", "bakery", "meat", "frozen", "pantry", "beverages", "snacks", "other", ];
+
+// helper: ensure quantity stays between 1–99 
+function clampQuantity(value) { const n = Number(value); return Math.max(1, Math.min(99, n)); }
 
 export default function NewItem() {
   const [name, setName] = useState("");
@@ -28,11 +32,11 @@ export default function NewItem() {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: "grid", gap: "1rem" }}>
+    <form onSubmit={handleSubmit}  className="grid gap-4">
       {/* Name */}
-      <div style={{ display: "grid", gap: 6 }}>
-        <label htmlFor="name" style={{ fontWeight: 600 }}>
-          Item Name <span style={{ color: "#d00" }}>*</span>
+      <div className="grid gap-1.5">
+        <label htmlFor="name" className="font-semibold">
+          Item Name <span className="text-red-600">*</span>
         </label>
         <input
           id="name"
@@ -41,18 +45,13 @@ export default function NewItem() {
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
-          style={{
-            padding: "0.6rem 0.75rem",
-            border: "1px solid #d1d5db",
-            borderRadius: 6,
-            outline: "none",
-          }}
+          className="px-3 py-2 border border-gray-300 rounded-md outline-none"
         />
       </div>
 
       {/* Quantity */}
-      <div style={{ display: "grid", gap: 6 }}>
-        <label htmlFor="quantity" style={{ fontWeight: 600 }}>
+      <div className="grid gap-1.5">
+        <label htmlFor="quantity" className="font-semibold">
           Quantity
         </label>
         <input
@@ -62,49 +61,28 @@ export default function NewItem() {
           max={99}
           value={quantity}
           onChange={(e) => {
-            const v = e.target.value;
-            // Ensure quantity stays between 1 and 99
-            const n = Math.max(1, Math.min(99, Number(v)));
-            setQuantity(n);
+            setQuantity(clampQuantity(e.target.value));
           }}
-          style={{
-            padding: "0.6rem 0.75rem",
-            border: "1px solid #d1d5db",
-            borderRadius: 6,
-            outline: "none",
-            width: 160,
-          }}
+          lassName="px-3 py-2 border border-gray-300 rounded-md outline-none w-40"
         />
       </div>
 
       {/* Category */}
-      <div style={{ display: "grid", gap: 6 }}>
-        <label htmlFor="category" style={{ fontWeight: 600 }}>
+      <div className="grid gap-1.5">
+        <label htmlFor="category" className="font-semibold">
           Category
         </label>
         <select
           id="category"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          style={{
-            padding: "0.6rem 0.75rem",
-            border: "1px solid #d1d5db",
-            borderRadius: 6,
-            outline: "none",
-            width: 220,
-            backgroundColor: "var(--foreground)",
-            color: "var(--background)",
-          }}
+          className="px-3 py-2 border border-gray-300 rounded-md outline-none w-56 bg-[var(--foreground)] text-[var(--background)]"
         >
-          <option value="produce">Produce</option>
-          <option value="dairy">Dairy</option>
-          <option value="bakery">Bakery</option>
-          <option value="meat">Meat</option>
-          <option value="frozen">Frozen</option>
-          <option value="pantry">Pantry</option>
-          <option value="beverages">Beverages</option>
-          <option value="snacks">Snacks</option>
-          <option value="other">Other</option>
+          {CATEGORY_OPTIONS.map((opt) => (
+            <option key={opt} value={opt}>
+              {opt.charAt(0).toUpperCase() + opt.slice(1)}
+            </option>
+          ))}
         </select>
       </div>
 
@@ -112,14 +90,7 @@ export default function NewItem() {
       <div>
         <button
           type="submit"
-          style={{
-            padding: "0.6rem 1rem",
-            background: "var(--foreground)",
-            color: "var(--background)",
-            border: 0,
-            borderRadius: 6,
-            cursor: "pointer",
-          }}
+          className="px-4 py-2 bg-[var(--foreground)] text-[var(--background)] rounded-md cursor-pointer"
         >
           Add Item
         </button>
