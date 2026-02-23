@@ -63,7 +63,7 @@ export default function NewItem() {
           onChange={(e) => {
             setQuantity(clampQuantity(e.target.value));
           }}
-          className="px-3 py-2 border border-gray-300 rounded-md outline-none w-40"
+          className="px-3 py-2 border border-gray-300 rounded-md outline-none"
         />
       </div>
 

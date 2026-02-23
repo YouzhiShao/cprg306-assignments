@@ -5,7 +5,7 @@ const CATEGORY_OPTIONS = [ "produce", "dairy", "bakery", "meat", "frozen", "pant
 // helper: ensure quantity stays between 1–99 
 function clampQuantity(value) { const n = Number(value); return Math.max(1, Math.min(99, n)); }
 
-export default function NewItem() {
+export default function NewItem({ onAddItem }) {
   const [name, setName] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [category, setCategory] = useState("produce");
@@ -20,10 +20,8 @@ export default function NewItem() {
     };
 
     console.log("Submitting item:", item);
+    onAddItem(item);
 
-    alert(
-      `Item added:\n- Name: ${item.name}\n- Quantity: ${item.quantity}\n- Category: ${item.category}`,
-    );
 
     // Reset all fields to their initial values
     setName("");
