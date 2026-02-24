@@ -1,9 +1,16 @@
 "use client";
 import { useState } from "react";
-const CATEGORY_OPTIONS = [ "produce", "dairy", "bakery", "meat", "frozen", "pantry", "beverages", "snacks", "other", ];
-
-// helper: ensure quantity stays between 1–99 
-function clampQuantity(value) { const n = Number(value); return Math.max(1, Math.min(99, n)); }
+const CATEGORY_OPTIONS = [
+  "produce",
+  "dairy",
+  "bakery",
+  "meat",
+  "frozen",
+  "pantry",
+  "beverages",
+  "snacks",
+  "other",
+];
 
 export default function NewItem({ onAddItem }) {
   const [name, setName] = useState("");
@@ -14,6 +21,7 @@ export default function NewItem({ onAddItem }) {
     e.preventDefault();
 
     const item = {
+      id: crypto.randomUUID(),
       name: name.trim(),
       quantity: Number(quantity),
       category,
@@ -22,7 +30,6 @@ export default function NewItem({ onAddItem }) {
     console.log("Submitting item:", item);
     onAddItem(item);
 
-
     // Reset all fields to their initial values
     setName("");
     setQuantity(1);
@@ -30,7 +37,7 @@ export default function NewItem({ onAddItem }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}  className="grid gap-4">
+    <form onSubmit={handleSubmit} className="grid gap-4">
       {/* Name */}
       <div className="grid gap-1.5">
         <label htmlFor="name" className="font-semibold">
@@ -59,7 +66,7 @@ export default function NewItem({ onAddItem }) {
           max={99}
           value={quantity}
           onChange={(e) => {
-            setQuantity(clampQuantity(e.target.value));
+            setQuantity(e.target.value);
           }}
           className="px-3 py-2 border border-gray-300 rounded-md outline-none w-40"
         />
