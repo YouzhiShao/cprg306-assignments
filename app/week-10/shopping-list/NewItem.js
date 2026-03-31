@@ -21,13 +21,13 @@ export default function NewItem({ onAddItem }) {
     e.preventDefault();
 
     const item = {
-      id: crypto.randomUUID(),
+      // id: crypto.randomUUID(),
       name: name.trim(),
       quantity: Number(quantity) || 1,
       category,
     };
 
-    console.log("Submitting item:", item);
+    // console.log("Submitting item:", item);
     onAddItem?.(item);
 
     // Reset all fields to their initial values
