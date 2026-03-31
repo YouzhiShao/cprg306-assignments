@@ -12,7 +12,7 @@ export default function Page() {
   const { user, loading } = useUserAuth();
 
   const [items, setItems] = useState([]);
-  const [selectedItemName, setSelectedItemName] = useState("");
+  const [selectedItemId, setSelectedItemId] = useState(null);
 
   // Load shopping list items from Firestore
   async function loadItems() {
@@ -49,25 +49,37 @@ export default function Page() {
     return <p>Please sign in to view your shopping list.</p>;
   }
 
+  const selectedItem = items.find((item) => item.id === selectedItemId);
+
+  const selectedItemName = selectedItem
+    ? selectedItem.name
+        .split(",")[0]
+        .replace(/\p{Emoji_Presentation}|\p{Extended_Pictographic}/gu, "")
+        .trim()
+    : "";
+
   return (
-    <main>
-      <h1>Shopping List</h1>
+    <main className="max-w-6xl mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Shopping List + Meal Ideas</h1>
 
-      <NewItem onAddItem={handleAddItem} />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <section
+          aria-label="Shopping list column"
+          className="p-4 border rounded"
+        >
+          <NewItem onAddItem={handleAddItem} />
 
-      <GroceryItemList
-        items={items}
-        onItemSelect={(item) => {
-          const cleanedName = item.name
-            .split(",")[0]
-            .replace(/\p{Emoji_Presentation}|\p{Extended_Pictographic}/gu, "")
-            .trim();
+          <GroceryItemList
+            items={items}
+            selectedId={selectedItemId}
+            onSelectItem={(id) => setSelectedItemId(id)}
+          />
+        </section>
 
-          setSelectedItemName(cleanedName);
-        }}
-      />
-
-      {selectedItemName && <MealIdeas ingredient={selectedItemName} />}
+        <section aria-label="Meal ideas column" className="p-4 border rounded">
+          {selectedItemName && <MealIdeas ingredient={selectedItemName} />}
+        </section>
+      </div>
     </main>
   );
 }

@@ -1,9 +1,9 @@
-// /app/week-8/GroceryItemList.js
 "use client";
+
 import { useState } from "react";
 import Item from "./GroceryItem";
 
-export default function GroceryItemList({ items, onSelectItem, selectedName }) {
+export default function GroceryItemList({ items, onSelectItem, selectedId }) {
   const [sortBy, setSortBy] = useState("name");
 
   const sortedItems = [...items].sort((a, b) => {
@@ -13,8 +13,8 @@ export default function GroceryItemList({ items, onSelectItem, selectedName }) {
   });
 
   return (
-    <section className="mt-8">
-      <div className="flex gap-3 mb-4">
+    <>
+      <div className="flex gap-2 mb-4">
         <button
           onClick={() => setSortBy("name")}
           className={`px-3 py-1 rounded ${
@@ -38,29 +38,21 @@ export default function GroceryItemList({ items, onSelectItem, selectedName }) {
         </button>
       </div>
 
-      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+      <ul>
         {sortedItems.map((item) => {
-          const isActive = selectedName && item.name === selectedName;
+          const isActive = selectedId && item.id === selectedId;
+
           return (
-            <div
+            <Item
               key={item.id}
-              className={`p-3 border rounded cursor-pointer ${
-                isActive
-                  ? "ring-2 ring-blue-500 bg-blue-50 dark:ring-blue-400 dark:bg-slate-700"
-                  : ""
-              }`}
-              onClick={() => onSelectItem?.(item.name)}
+              item={item}
+              isActive={isActive}
+              onClick={() => onSelectItem?.(item.id)}
               title="Click to view meal ideas"
-            >
-              <Item
-                name={item.name}
-                quantity={item.quantity}
-                category={item.category}
-              />
-            </div>
+            />
           );
         })}
       </ul>
-    </section>
+    </>
   );
 }
