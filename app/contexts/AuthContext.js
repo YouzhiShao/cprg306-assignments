@@ -14,6 +14,8 @@ const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
+  const [loading, setLoading] = useState(true);
+
   const gitHubSignIn = () => {
     const provider = new GithubAuthProvider();
     return signInWithPopup(auth, provider);
@@ -26,12 +28,15 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      setLoading(false);
     });
     return () => unsubscribe();
-  }, [user]);
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ user, gitHubSignIn, firebaseSignOut }}>
+    <AuthContext.Provider
+      value={{ user, loading, gitHubSignIn, firebaseSignOut }}
+    >
       {children}
     </AuthContext.Provider>
   );
