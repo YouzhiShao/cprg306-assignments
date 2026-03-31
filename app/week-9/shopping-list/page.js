@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 
+import { useUserAuth } from "../../contexts/AuthContext";
 import itemsData from "./items.json";
 import NewItem from "./NewItem";
 import ItemList from "./GroceryItemList";
@@ -13,6 +14,16 @@ export default function Page() {
   const handleAddItem = (newItem) => {
     setItems([...items, newItem]);
   };
+
+  const { user, loading } = useUserAuth();
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (!user) {
+    return <p>Please sign in to view this page.</p>;
+  }
 
   return (
     <main className="max-w-6xl mx-auto p-4">
