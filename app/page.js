@@ -67,6 +67,13 @@ export default function Home() {
           <span className="w-2 h-2 bg-green-500 rounded-full"></span>
           Go to Week 9 Assignment
         </Link>
+        <Link
+          href="/week-10"
+          className="flex items-center gap-2 underline underline-offset-2 decoration-blue-500"
+        >
+          <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+          Go to Week 10 Assignment
+        </Link>
       </nav>
     </main>
   );
